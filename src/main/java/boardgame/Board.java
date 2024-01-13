@@ -31,11 +31,11 @@ public class Board {
         this.columns = columns;
     }
 
-    protected Piece getPiece(int row, int column) {
+    public Piece getPiece(int row, int column) {
         return pieces[row][column];
     }
 
-    protected Piece getPiece(Position position) {
+    public Piece getPiece(Position position) {
         return pieces[position.getRow()][position.getColumn()];
     }
 }
