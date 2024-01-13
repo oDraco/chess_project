@@ -1,6 +1,8 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
+import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -28,6 +30,27 @@ public class ChessMatch {
         return pieces;
     }
 
+    private void placeNewPiece(char column, int row, ChessPiece piece) {
+        board.placePiece(piece, new ChessPosition(column,row).toPosition());
+    }
+
+    public ChessPiece performChessMove(ChessPosition initialPosition, ChessPosition targetPosition) {
+        Position initialPos = initialPosition.toPosition();
+        Position targetPos = targetPosition.toPosition();
+        if(!board.thereIsAPiece(initialPos)) {
+            throw new ChessException("There isn't a piece on the position: " + initialPosition);
+        }
+        Piece capturedPiece = makeMove(initialPos,targetPos);
+        return (ChessPiece) capturedPiece;
+    }
+
+    private Piece makeMove(Position origin, Position target) {
+        Piece p = board.removePiece(origin);
+        Piece capturedPiece = board.removePiece(target);
+        board.placePiece(p,target);
+        return capturedPiece;
+    }
+
     private void initialSetup() {
         placeNewPiece('c', 1, new Rook(board, Color.WHITE));
         placeNewPiece('c', 2, new Rook(board, Color.WHITE));
@@ -44,7 +67,5 @@ public class ChessMatch {
         placeNewPiece('d', 8, new King(board, Color.BLACK));
     }
 
-    private void placeNewPiece(char column, int row, ChessPiece piece) {
-        board.placePiece(piece, new ChessPosition(column,row).toPosition());
-    }
+
 }

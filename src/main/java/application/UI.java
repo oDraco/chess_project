@@ -1,7 +1,10 @@
 package application;
 
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.Color;
+
+import java.util.Scanner;
 
 public class UI {
 
@@ -27,6 +30,16 @@ public class UI {
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    public static ChessPosition readChessPosition(Scanner scanner) {
+        try {
+            String pos = scanner.nextLine().toLowerCase();
+            int row = Integer.parseInt(pos.substring(1));
+            return new ChessPosition(pos.charAt(0),row);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Invalid ChessPosition Data. Valid values are between a1-h8.");
+        }
     }
 
     public static void printBoard(ChessPiece[][] pieces) {
