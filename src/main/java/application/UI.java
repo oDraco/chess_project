@@ -4,6 +4,7 @@ import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UI {
@@ -38,7 +39,7 @@ public class UI {
             int row = Integer.parseInt(pos.substring(1));
             return new ChessPosition(pos.charAt(0),row);
         } catch (RuntimeException e) {
-            throw new RuntimeException("Invalid ChessPosition Data. Valid values are between a1-h8.");
+            throw new InputMismatchException("Invalid ChessPosition Data. Valid values are between a1-h8.");
         }
     }
 
