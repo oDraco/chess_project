@@ -37,14 +37,25 @@ public class ChessMatch {
     public ChessPiece performChessMove(ChessPosition initialPosition, ChessPosition targetPosition) {
         Position initialPos = initialPosition.toPosition();
         Position targetPos = targetPosition.toPosition();
-        if(!board.thereIsAPiece(initialPos)) {
-            throw new ChessException("There isn't a piece in the selected location");
-        }
-        if(!board.getPiece(initialPos).isThereAnyPossibleMove()) {
-            throw new ChessException("There isn't any possible movement for the selected piece");
-        }
+        validateOriginPosition(initialPos);
+        validateTargetPosition(initialPos,targetPos);
         Piece capturedPiece = makeMove(initialPos,targetPos);
         return (ChessPiece) capturedPiece;
+    }
+
+    private void validateOriginPosition(Position position) {
+        if(!board.thereIsAPiece(position)) {
+            throw new ChessException("There isn't a piece in the selected location");
+        }
+        if(!board.getPiece(position).isThereAnyPossibleMove()) {
+            throw new ChessException("There isn't any possible movement for the selected piece");
+        }
+    }
+
+    private void validateTargetPosition(Position origin, Position target) {
+        if (!board.getPiece(origin).getPossibleMove(target)) {
+            throw new ChessException("The chosen piece can't move to the target destination.");
+        };
     }
 
     private Piece makeMove(Position origin, Position target) {
