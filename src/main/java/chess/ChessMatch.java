@@ -17,7 +17,17 @@ public class ChessMatch {
 
     public ChessMatch() {
         board = new Board(8,8);
+        currentPlayer = Color.WHITE;
+        turn = 1;
         initialSetup();
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public Color getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public ChessPiece[][] getPieces() {
@@ -46,6 +56,7 @@ public class ChessMatch {
         validateOriginPosition(initialPos);
         validateTargetPosition(initialPos,targetPos);
         Piece capturedPiece = makeMove(initialPos,targetPos);
+        nextTurn();
         return (ChessPiece) capturedPiece;
     }
 
@@ -53,15 +64,24 @@ public class ChessMatch {
         if(!board.thereIsAPiece(position)) {
             throw new ChessException("There isn't a piece in the selected location");
         }
+        if(((ChessPiece) board.getPiece(position)).getColor() != currentPlayer) {
+            throw new ChessException("The selected piece isn't yours");
+        }
         if(!board.getPiece(position).isThereAnyPossibleMove()) {
             throw new ChessException("There isn't any possible movement for the selected piece");
         }
+
     }
 
     private void validateTargetPosition(Position origin, Position target) {
         if (!board.getPiece(origin).getPossibleMove(target)) {
             throw new ChessException("The chosen piece can't move to the target destination.");
         };
+    }
+
+    private void nextTurn() {
+        turn++;
+        currentPlayer = currentPlayer == Color.WHITE ? Color.BLACK : Color.WHITE;
     }
 
     private Piece makeMove(Position origin, Position target) {
