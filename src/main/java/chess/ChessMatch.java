@@ -30,6 +30,12 @@ public class ChessMatch {
         return pieces;
     }
 
+    public boolean[][] getPossibleMoves(ChessPosition position) {
+        Position p = position.toPosition();
+        validateOriginPosition(p);
+        return board.getPiece(p).getPossibleMoves();
+    }
+
     private void placeNewPiece(char column, int row, ChessPiece piece) {
         board.placePiece(piece, new ChessPosition(column,row).toPosition());
     }

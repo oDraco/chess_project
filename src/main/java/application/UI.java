@@ -37,7 +37,7 @@ public class UI {
         try {
             String pos = scanner.nextLine().toLowerCase();
             int row = Integer.parseInt(pos.substring(1));
-            return new ChessPosition(pos.charAt(0),row);
+            return new ChessPosition(pos.charAt(0), row);
         } catch (RuntimeException e) {
             throw new InputMismatchException("Invalid ChessPosition Data. Valid values are between a1-h8.");
         }
@@ -47,22 +47,37 @@ public class UI {
         for (int i = 0; i < pieces.length; i++) {
             System.out.print(pieces.length - i + " ");
             for (int j = 0; j < pieces[i].length; j++) {
-                printPiece(pieces[i][j]);
+                printPiece(pieces[i][j], false);
             }
             System.out.println();
         }
         System.out.println("  a b c d e f g h");
     }
 
-    public static void printPiece(ChessPiece piece) {
+    public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+        for (int i = 0; i < pieces.length; i++) {
+            System.out.print(pieces.length - i + " ");
+            for (int j = 0; j < pieces[i].length; j++) {
+                printPiece(pieces[i][j], possibleMoves[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println("  a b c d e f g h");
+    }
+
+
+    public static void printPiece(ChessPiece piece, boolean hightlightBackground) {
+        if (hightlightBackground) {
+            System.out.print(ANSI_BLUE_BACKGROUND);
+        }
         if (piece == null) {
-            System.out.print("-");
+            System.out.print("-" + ANSI_RESET);
         } else {
             System.out.print(
                     (piece.getColor() == Color.WHITE ? ANSI_WHITE : ANSI_YELLOW)
-                    + piece
-                    + ANSI_RESET
-                    );
+                            + piece
+                            + ANSI_RESET
+            );
         }
         System.out.print(" ");
     }
