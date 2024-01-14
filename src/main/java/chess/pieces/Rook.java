@@ -10,6 +10,12 @@ public class Rook extends ChessPiece {
     }
 
     @Override
+    public boolean[][] getPossibleMoves() {
+        boolean[][] moves = new boolean[getBoard().getRows()][getBoard().getColumns()];
+        return moves;
+    }
+
+    @Override
     public String toString() {
         return "R";
     }

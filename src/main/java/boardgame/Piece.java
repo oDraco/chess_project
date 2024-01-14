@@ -13,4 +13,20 @@ public abstract class Piece {
     protected Board getBoard() {
         return board;
     }
+
+    public abstract boolean[][] getPossibleMoves();
+
+    public boolean getPossibleMove(Position position) {
+        return getPossibleMoves()[position.getRow()][position.getColumn()];
+    }
+
+    public boolean isThereAnyPossibleMove() {
+        boolean[][] moves = getPossibleMoves();
+        for(int i=0; i<moves.length; i++) {
+            for(int j=0; j<moves[i].length; j++) {
+                if(moves[i][j]) return true;
+            }
+        }
+        return false;
+    }
 }

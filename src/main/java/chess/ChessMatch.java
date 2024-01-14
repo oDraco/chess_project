@@ -38,7 +38,10 @@ public class ChessMatch {
         Position initialPos = initialPosition.toPosition();
         Position targetPos = targetPosition.toPosition();
         if(!board.thereIsAPiece(initialPos)) {
-            throw new ChessException("There isn't a piece on the position: " + initialPosition);
+            throw new ChessException("There isn't a piece in the selected location");
+        }
+        if(!board.getPiece(initialPos).isThereAnyPossibleMove()) {
+            throw new ChessException("There isn't any possible movement for the selected piece");
         }
         Piece capturedPiece = makeMove(initialPos,targetPos);
         return (ChessPiece) capturedPiece;
