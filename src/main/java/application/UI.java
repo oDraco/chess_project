@@ -1,5 +1,6 @@
 package application;
 
+import boardgame.Piece;
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
@@ -47,10 +48,13 @@ public class UI {
         }
     }
 
-    public static void printMatch(ChessMatch match, List<ChessPiece> captured) {
+    public static void printMatch(ChessMatch match, List<Piece> captured) {
         printBoard(match.getPieces());
         System.out.println("\nTurn: " + match.getTurn());
         System.out.println("Current Player: " + match.getCurrentPlayer());
+        if(match.getCheck()) {
+            System.out.println("CHECK!");
+        }
         System.out.println();
         printCapturedPieces(captured);
     }
@@ -94,9 +98,9 @@ public class UI {
         System.out.print(" ");
     }
 
-    private static void printCapturedPieces(List<ChessPiece> pieces) {
-        List<ChessPiece> whitePieces = pieces.stream().filter(p -> p.getColor()==Color.WHITE).collect(Collectors.toList());
-        List<ChessPiece> blackPieces = pieces.stream().filter(p -> p.getColor()==Color.BLACK).collect(Collectors.toList());
+    private static void printCapturedPieces(List<Piece> pieces) {
+        List<Piece> whitePieces = pieces.stream().filter(p -> ((ChessPiece) p).getColor()==Color.WHITE).collect(Collectors.toList());
+        List<Piece> blackPieces = pieces.stream().filter(p -> ((ChessPiece) p).getColor()==Color.BLACK).collect(Collectors.toList());
 
         System.out.println("Captured Pieces:");
         System.out.print("White: ");

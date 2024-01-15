@@ -14,12 +14,11 @@ public class Program {
         Scanner sc = new Scanner(System.in);
 
         ChessMatch match = new ChessMatch();
-        List<ChessPiece> captured = new ArrayList<>();
 
         while(true) {
             try {
                 UI.clearScreen();
-                UI.printMatch(match, captured);
+                UI.printMatch(match, match.getCapturedPieces());
 
                 System.out.print("\nSource: ");
                 ChessPosition source = UI.readChessPosition(sc);
@@ -31,7 +30,6 @@ public class Program {
                 ChessPosition target = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = match.performChessMove(source, target);
-                captured.add(capturedPiece);
             }
             catch (ChessException e) {
                 System.out.println(e.getMessage());
