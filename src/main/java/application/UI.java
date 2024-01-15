@@ -51,10 +51,16 @@ public class UI {
     public static void printMatch(ChessMatch match, List<Piece> captured) {
         printBoard(match.getPieces());
         System.out.println("\nTurn: " + match.getTurn());
-        System.out.println("Current Player: " + match.getCurrentPlayer());
-        if(match.getCheck()) {
-            System.out.println("CHECK!");
+        if(!match.getCheckMate()) {
+            System.out.println("Current Player: " + match.getCurrentPlayer());
+            if(match.getCheck()) {
+                System.out.println("CHECK!");
+            }
+        } else {
+            System.out.println("Winner: " + match.getCurrentPlayer());
+            System.out.println("CHECKMATE!");
         }
+
         System.out.println();
         printCapturedPieces(captured);
     }
