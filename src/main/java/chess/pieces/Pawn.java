@@ -2,12 +2,16 @@ package chess.pieces;
 
 import boardgame.Board;
 import boardgame.Position;
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.Color;
 
 public class Pawn extends ChessPiece {
-    public Pawn(Board board, Color color) {
+
+    private final ChessMatch match;
+    public Pawn(Board board, Color color, ChessMatch match) {
         super(board, color);
+        this.match = match;
     }
 
     @Override
@@ -31,6 +35,19 @@ public class Pawn extends ChessPiece {
         p.setColumn(position.getColumn() + 1);
         if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
             moves[p.getRow()][p.getColumn()] = true;
+        }
+
+        // Special Move: En Passant
+        upOrDown = position.getRow() == 3 ? -1 : +1;
+        if(position.getRow() == 3 || position.getRow() == 4) {
+            Position left = new Position(position.getRow(),position.getColumn()-1);
+            Position right = new Position(position.getRow(),position.getColumn()+1);
+            if(getBoard().positionExists(left) && isThereOpponentPiece(left) && getBoard().getPiece(left) == match.getEnPassantVulnerable()) {
+                moves[left.getRow()+upOrDown][left.getColumn()] = true;
+            }
+            if(getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().getPiece(right) == match.getEnPassantVulnerable()) {
+                moves[right.getRow()+upOrDown][right.getColumn()] = true;
+            }
         }
 
         return moves;
