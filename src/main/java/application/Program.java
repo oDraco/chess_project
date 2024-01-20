@@ -4,6 +4,7 @@ import chess.ChessException;
 import chess.ChessMatch;
 import chess.ChessPosition;
 
+import java.security.InvalidParameterException;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
@@ -31,8 +32,13 @@ public class Program {
                 ChessPosition target = UI.readChessPosition(sc);
 
                 match.performChessMove(source, target);
+
+                if(match.getPromoted() != null) {
+                    System.out.print("Enter piece for promotion (B/N/R/Q):");
+                    match.replacePromotedPiece(sc.nextLine().toUpperCase());
+                }
             }
-            catch (ChessException | InputMismatchException e) {
+            catch (ChessException | InputMismatchException | InvalidParameterException e) {
                 System.out.println(e.getMessage());
                 sc.nextLine();
             }
